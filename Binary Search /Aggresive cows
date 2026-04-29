@@ -1,0 +1,37 @@
+import java.util.*;
+
+class Solution {
+    
+    private boolean canPlace(int[] stalls, int k, int guess){
+        int cows = 1;
+        int prevpos = stalls[0];
+        
+        for(int i = 1; i < stalls.length; i++){
+            if(stalls[i] - prevpos >= guess){
+                cows++;
+                prevpos = stalls[i];
+            }
+        }
+        return cows >= k;
+    }
+    
+    public int aggressiveCows(int[] stalls, int k) {
+        Arrays.sort(stalls);
+        
+        int low = 1;
+        int high = stalls[stalls.length - 1] - stalls[0];  // 2nd Cow ayegye he agye yha pr to
+        int res = -1;
+        
+        while(low <= high){
+            int guess = (low + high) / 2;
+            
+            if(canPlace(stalls, k, guess)){
+                res = guess;
+                low = guess + 1;
+            } else {
+                high = guess - 1;
+            }
+        }
+        return res;
+    }
+}
